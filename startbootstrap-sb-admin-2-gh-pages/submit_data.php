@@ -1,35 +1,33 @@
 <?php
+include ("classes/connect.php");
 
-include("classes/connect.php");
-
-// Buat objek dari class Database
+// Membuat instance dari class Database
 $db = new Database();
 
-// Cek apakah tombol telah ditekan
-if(isset($_POST['submit'])) {
-    // Menghasilkan nilai random
-    $tegangan = rand(180, 240);  // Nilai tegangan random antara 180V - 240V
-    $arus = rand(1, 10);         // Nilai arus random antara 1A - 10A
-    $daya = $tegangan * $arus;   // Menghitung daya (Watt)
-    $energi = rand(100, 500);    // Energi random antara 100Wh - 500Wh
-    $suhu = rand(20, 40);        // Suhu random antara 20°C - 40°C
-    $kelembapan = rand(30, 70);  // Kelembapan random antara 30% - 70%
-    $used = rand(0, 1);          // Digunakan atau tidak (0 atau 1)
+// Validasi data POST
+$tegangan = isset($_POST['tegangan']) ? $_POST['tegangan'] : null;
+$arus = isset($_POST['arus']) ? $_POST['arus'] : null;
+$daya = isset($_POST['daya']) ? $_POST['daya'] : null;
+$energi = isset($_POST['energi']) ? $_POST['energi'] : null;
+$suhu = isset($_POST['suhu']) ? $_POST['suhu'] : null;
+$kelembapan = isset($_POST['kelembapan']) ? $_POST['kelembapan'] : null;
+$used = isset($_POST['used']) ? $_POST['used'] : null;
+$remaining = isset($_POST['remaining']) ? $_POST['remaining'] : null;
 
-    // Query untuk menyimpan data ke database
-    $sql = "INSERT INTO sensor_data (tegangan, arus, daya, energi, suhu, kelembapan, used)
-            VALUES ('$tegangan', '$arus', '$daya', '$energi', '$suhu', '$kelembapan', '$used')";
+// Cek apakah semua data tersedia
+if ($tegangan !== null && $arus !== null && $daya !== null && $energi !== null && $suhu !== null && $kelembapan !== null && $used !== null && $remaining !== null) {
+    
+    // Query untuk menyimpan data sensor
+    $sql = "INSERT INTO sensor_data (tegangan, arus, daya, energi, suhu, kelembapan, used, remaining)
+            VALUES ('$tegangan', '$arus', '$daya', '$energi', '$suhu', '$kelembapan', '$used', '$remaining')";
 
-    // Gunakan method save dari class Database untuk menyimpan data
-    if ($db->save($sql)) {
+    if ($conn->query($sql) === TRUE) {
         echo "Data berhasil disimpan";
     } else {
-        echo "Error: " . $sql;
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
+} else {
+    echo "Error: Data tidak lengkap.";
 }
-?>
 
-<!-- Form dengan tombol untuk menyimpan data -->
-<form method="post">
-    <button type="submit" name="submit">Simpan Data Random</button>
-</form>
+?>

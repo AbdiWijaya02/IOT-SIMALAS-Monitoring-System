@@ -15,6 +15,4 @@ if ($result !== false && count($result) > 0) {
 } else {
     echo json_encode(["statusmesin" => "error", "message" => "Gagal mengambil status."]);
 }
- status."]);
-}
 ?>

@@ -331,8 +331,9 @@ else{
                                 echo "Tidak ada data booking.";
                             }
                             ?>
+                </div>
                    <div class="col-lg-2 mb-4">
-                    <button class="card bg-success text-white shadow" id="actionButton" style="border: none; width: 100%; padding: 15px; text-align: left;" data-toggle="modal" data-target="#activateMachineModal">
+                    <button class="card bg-success text-white shadow" id="actionButton" style="border: none; width: 100%; padding: 15px; text-align: left;" disabled data-toggle="modal" data-target="#activateMachineModal">
                         Aktifkan Mesin
                     </button>
                 </div>
@@ -363,6 +364,7 @@ else{
                 <script>
                          document.addEventListener("DOMContentLoaded", function () {
                             var machine = false; // Status mesin, mulai dari OFF
+                            var buttonElement = document.getElementById("actionButton");
                             var transferInterval; // Variable untuk menyimpan interval
 
                             // Fungsi untuk memperbarui jam
@@ -388,7 +390,8 @@ else{
                                         updateMachineStatus("OFF"); // Kirim status OFF 
                                         machine = false; // Set status mesin menjadi OFF
                                     }
-                                    buttonElement.disabled = true; // Nonaktifkan tombol
+                                    clearInterval(transferInterval);
+                                    buttonElement.disabled = true; 
                                 }
                             }
 
@@ -463,7 +466,9 @@ else{
 
                             // Memperbarui jam setiap detik
                             setInterval(updateClock, 1000);
+                          
                         });
+                        
                         </script>
     
                         <style>
@@ -474,9 +479,8 @@ else{
                                 opacity: 0;           
                             }
                         </style>
-                    </div>
-
-
+                
+                </div>
 
                     <!-- Content Row -->
                     <div class="row">
