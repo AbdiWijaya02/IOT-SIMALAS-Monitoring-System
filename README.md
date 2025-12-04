@@ -33,12 +33,6 @@ Frontend menggunakan SB Admin 2 untuk menampilkan data monitoring. Data diambil 
 ---
 
 
-Sekarang aku berikan versi struktur repository yang **pasti rapi di GitHub**, karena sudah memakai monospace code block dan karakter tree yang benar.
-
-Kamu tinggal copy paste bagian ini ke README.md.
-
----
-
 ### **Struktur Repository**
 
 IOT-SIMALAS-Monitoring-System
@@ -54,8 +48,12 @@ IOT-SIMALAS-Monitoring-System
 │   └── startbootstrap-sb-admin-2-gh-pages
 │
 ├── HARDWARE
-│   ├── ESP32
-│   └── Arduino Mega
+│   ├── ESP8266
+│   ├── PZEM-004T
+│   ├── Sensor LM393
+│   ├── Power Supply
+│   ├── SSR
+│   └── DHT11
 │
 ├── modal2.ino
 └── README.md
