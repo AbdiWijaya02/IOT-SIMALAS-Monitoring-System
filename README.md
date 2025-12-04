@@ -1,174 +1,148 @@
-IOT SIMALAS Monitoring System
+# IOT SIMALAS Monitoring System
 
-Sistem ini merupakan platform monitoring berbasis Internet of Things yang dirancang untuk mendukung proses identifikasi, pendataan, dan pengelolaan informasi perangkat dan aktivitas lapangan. Sistem terdiri dari tiga komponen utama yaitu modul hardware berbasis ESP32 dan Arduino Mega, backend server berbasis PHP dan MySQL, serta frontend dashboard berbasis HTML, CSS, dan JavaScript.
+**IOT SIMALAS Monitoring System** adalah platform monitoring berbasis Internet of Things yang dirancang untuk mendukung proses identifikasi, pendataan, dan pengelolaan informasi perangkat serta aktivitas lapangan secara *real time*. Sistem ini mengintegrasikan modul hardware berbasis **ESP32** dan **Arduino Mega**, backend server berbasis **PHP MySQL**, serta dashboard berbasis **HTML, CSS, dan JavaScript**.
 
-Tujuan utama proyek ini ialah menyediakan alur monitoring yang terintegrasi antara perangkat fisik dan sistem informasi berbasis web dengan proses komunikasi yang stabil, terstruktur, dan dapat dikembangkan untuk lingkungan skala kecil maupun besar.
+Tujuan utama proyek ini ialah menghadirkan alur monitoring yang terintegrasi antara perangkat fisik dan sistem informasi berbasis web dengan proses komunikasi yang stabil, terstruktur, dan dapat dikembangkan untuk kebutuhan skala kecil maupun besar.
 
-Fitur Utama
+---
 
-Pemantauan perangkat real time melalui koneksi jaringan berbasis HTTP.
+## Fitur Utama
 
-Integrasi hardware ESP32 dan Arduino Mega dengan protokol serial untuk pengiriman data sensor.
+- Pemantauan perangkat secara *real time* melalui jaringan berbasis HTTP.  
+- Integrasi hardware ESP32 dan Arduino Mega menggunakan protokol serial.  
+- Mekanisme input, pencatatan, dan penyimpanan data melalui backend server.  
+- Dashboard admin untuk visualisasi monitoring menggunakan template SB Admin 2.  
+- Struktur kode modular sehingga mudah dikembangkan untuk sensor tambahan.  
+- Komunikasi dua arah antara frontend, backend, dan hardware.
 
-Mekanisme input, pencatatan, dan penyimpanan data melalui backend server.
+---
 
-Dashboard admin untuk visualisasi data monitoring menggunakan template SB Admin 2.
+## Arsitektur Sistem
 
-Struktur kode modular agar mudah dikembangkan untuk perangkat atau sensor tambahan.
+Arsitektur sistem dibagi menjadi tiga lapisan.
 
-Komunikasi terarah antara frontend, backend, dan hardware agar sistem dapat bekerja secara sinkron.
+### 1. Hardware Layer
+ESP32 bertugas mengirim dan menerima data ke server, sedangkan Arduino Mega mengelola pembacaan sensor dan mengirimkan data mentah melalui UART. ESP32 mengonversi data menjadi JSON untuk dikirimkan ke backend.
 
-Arsitektur Sistem
+### 2. Backend Layer
+Backend dibangun dengan PHP dan MySQL. Backend memvalidasi data yang diterima dari perangkat IoT, menyimpannya ke database, dan menyediakan endpoint untuk frontend maupun perangkat hardware.
 
-Arsitektur sistem ini terdiri dari tiga lapisan utama.
+### 3. Frontend Layer
+Frontend menggunakan SB Admin 2 untuk menampilkan data monitoring. Data diambil melalui AJAX dan ditampilkan dalam bentuk grafik, tabel, serta indikator status perangkat.
 
-1. Hardware Layer
+---
 
-Bagian ini menggunakan ESP32 sebagai pengendali komunikasi jaringan dan Arduino Mega sebagai pengolah sensor. ESP32 bertugas mengirim data ke server dan menerima instruksi, sementara Mega memproses input perangkat seperti modul sensor dan menyediakan data mentah ke ESP32. Komunikasi dilakukan menggunakan UART dengan protokol pengiriman data yang telah distandarkan.
-
-2. Backend Layer
-
-Backend dibuat menggunakan PHP dengan koneksi ke database MySQL. Bagian ini bertugas menerima data dari ESP32, melakukan validasi, menyimpan data ke database, serta menyediakan endpoint akses untuk frontend. Backend juga menyediakan fungsi pengambilan data untuk perangkat IoT.
-
-3. Frontend Layer
-
-Frontend menggunakan template Start Bootstrap SB Admin 2 untuk membangun dashboard monitoring. Pengguna dapat melihat data perangkat, status komunikasi, riwayat aktivitas, dan grafik pemantauan. Semua data diambil melalui endpoint backend menggunakan AJAX.
-
-Struktur Repository
+## Struktur Repository
 IOT-SIMALAS-Monitoring-System
 │
 ├── BACKEND
-│   ├── config
-│   ├── api
-│   ├── database
-│   ├── handler
-│   └── index.php
+│ ├── config
+│ ├── api
+│ ├── database
+│ ├── handler
+│ └── index.php
 │
 ├── FRONTEND
-│   └── startbootstrap-sb-admin-2-gh-pages
+│ └── startbootstrap-sb-admin-2-gh-pages
 │
 ├── HARDWARE
-│   ├── ESP32
-│   └── Arduino Mega
+│ ├── ESP32
+│ └── Arduino Mega
 │
 ├── modal2.ino
 └── README.md
 
-Bagian BACKEND berisi endpoint PHP untuk komunikasi data. FRONTEND menyimpan dashboard admin. HARDWARE menyimpan kode dan konfigurasi perangkat.
+---
 
-Alur Komunikasi Hardware
+## Alur Komunikasi Hardware
 
-Arduino Mega membaca data sensor.
+1. Arduino Mega membaca data sensor.  
+2. Data dikirim ke ESP32 melalui komunikasi serial.  
+3. ESP32 mengonversi data ke format JSON.  
+4. Data dikirim melalui HTTP POST ke server backend.  
+5. Backend menyimpan data di database.  
+6. Jika server memiliki instruksi, ESP32 mengambilnya melalui endpoint tertentu.  
+7. ESP32 meneruskan instruksi ke Arduino Mega.  
 
-Mega mengirim data mentah ke ESP32 melalui komunikasi serial.
+---
 
-ESP32 melakukan parsing data dan mengemasnya menjadi format JSON.
+## Instalasi dan Konfigurasi
 
-Data dikirim ke server melalui HTTP POST.
+### Persyaratan
 
-Server menyimpan data ke database dan memberikan respons status.
+**Backend**
+- PHP 7 atau lebih tinggi  
+- MySQL 5.7 atau lebih tinggi  
+- Apache atau Nginx  
 
-Jika ada instruksi yang perlu dikirim kembali ke perangkat, server mengirimkan data tersebut melalui endpoint yang diakses oleh ESP32.
+**Hardware**
+- Arduino IDE  
+- ESP32 Board Package  
+- Library sensor  
 
-ESP32 meneruskan instruksi ke Arduino Mega sehingga siklus komunikasi berjalan dua arah.
+**Frontend**
+- Browser modern  
+- Koneksi ke backend untuk memuat data
 
-Alur ini memastikan bahwa perangkat dan server selalu sinkron.
+---
 
-Instalasi dan Konfigurasi
-Persyaratan
+### Cara Instalasi Backend
 
-Backend
-PHP 7 atau lebih tinggi
-MySQL 5.7 atau lebih tinggi
-Apache atau Nginx
+1. Clone repository ini.  
+2. Letakkan folder BACKEND pada direktori server seperti htdocs.  
+3. Buat database dan impor struktur tabel.  
+4. Sesuaikan konfigurasi kredensial database.  
+5. Pastikan semua endpoint dapat diakses browser.
 
-Hardware
-Arduino IDE
-Board ESP32 Package
-Library sensor sesuai kebutuhan proyek
+---
 
-Frontend
-Browser modern dengan dukungan JavaScript
-Koneksi ke backend untuk pengambilan data
+### Cara Instalasi Frontend
 
-Cara Instalasi Backend
+1. Simpan folder SB Admin 2 ke direktori publik.  
+2. Ubah konfigurasi base URL untuk mengarah ke backend API.  
+3. Buka dashboard melalui browser.
 
-Clone repository ini.
+---
 
-Letakkan folder BACKEND dalam direktori server seperti htdocs atau public html.
+### Cara Konfigurasi Hardware
 
-Buat database MySQL dan impor file struktur yang telah disediakan.
+1. Upload program ESP32.  
+2. Upload program Arduino Mega.  
+3. Sesuaikan baudrate dan port serial.  
+4. Uji komunikasi Serial dan endpoint backend.
 
-Sesuaikan konfigurasi kredensial database di folder config.
+---
 
-Pastikan endpoint seperti upload data dan get data dapat diakses melalui browser.
+## Endpoint Backend
 
-Cara Instalasi Frontend
+### 1. Mengirim Data Sensor
+Metode: POST  
+Format: JSON  
+Field wajib: device_id, tipe_data, nilai, timestamp  
 
-Simpan folder startbootstrap-sb-admin-2-gh-pages di direktori public.
+### 2. Mengambil Data Monitoring
+Metode: GET  
+Output: JSON data terbaru atau historis  
 
-Ubah konfigurasi base URL untuk mengarah ke backend.
+### 3. Mengambil Instruksi Perangkat
+Metode: GET  
+Output: JSON instruksi untuk ESP32  
 
-Jalankan dashboard melalui browser.
+---
 
-Cara Konfigurasi Hardware
+## Troubleshooting
 
-Upload kode ESP32 yang berada dalam folder HARDWARE ke perangkat ESP32.
+**Data tidak masuk server**  
+Periksa URL endpoint dan WiFi ESP32.
 
-Upload program Arduino Mega sesuai kebutuhan sensor.
+**Dashboard tidak muncul data**  
+Pastikan backend mengirim JSON valid.
 
-Sesuaikan baudrate komunikasi serial pada kedua perangkat.
+**Komunikasi serial bermasalah**  
+Pastikan baudrate sama dan kabel baik.
 
-Lakukan pengujian koneksi serial dan endpoint server sebelum digunakan dalam deployment lapangan.
+**Backend tidak merespons**  
+Pastikan Apache atau Nginx berjalan.
 
-Endpoint Backend
-
-Berikut contoh endpoint dasar dalam sistem.
-
-1. Mengirim Data Sensor
-
-Metode: POST
-Format: JSON
-Field wajib: device id, tipe data, nilai data, timestamp
-
-2. Mengambil Data Monitoring
-
-Metode: GET
-Output: JSON berisi data sensor terbaru atau data historis
-
-3. Mengambil Instruksi untuk Perangkat
-
-Metode: GET
-Output: instruksi yang wajib dieksekusi ESP32
-
-Dokumentasi endpoint detail tersedia di folder BACKEND.
-
-Pengembangan dan Skalabilitas
-
-Sistem ini dirancang agar mudah dikembangkan. Skala dapat ditingkatkan dengan:
-
-Menambah jenis sensor baru tanpa mengubah inti backend.
-
-Mengubah protokol komunikasi dari HTTP menjadi MQTT jika diperlukan untuk efisiensi.
-
-Menambah fitur dashboard seperti grafik waktu nyata atau deteksi anomali.
-
-Membuat mekanisme autentikasi perangkat.
-
-Penggunaan database relasional memudahkan perluasan fitur penyimpanan data.
-
-Troubleshooting
-
-Data tidak masuk ke server
-Periksa konfigurasi URL endpoint dan pastikan ESP32 terhubung ke jaringan.
-
-Dashboard tidak menampilkan data
-Periksa AJAX request pada frontend dan pastikan format JSON sesuai.
-
-Komunikasi serial tidak stabil
-Pastikan baudrate pada ESP32 dan Arduino Mega sama serta gunakan kabel berkualitas baik.
-
-Backend tidak dapat diakses
-Pastikan Apache atau Nginx berjalan dan file permission sudah benar.
 
 
